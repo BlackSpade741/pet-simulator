@@ -1,8 +1,5 @@
-from abc import ABC, abstractmethod
-
-
-class Pet(ABC):
-    """ A pet from PetSim. 
+class Pet:
+    """ A pet from PetSim.
     
     === Attributes ===
     @type name: str
@@ -67,11 +64,11 @@ class Pet(ABC):
                              'reflexive': 'themselves'}
     
     def act(self, a):
-        """Return the outcome of a on Pet. 
+        """Return the outcome of a on Pet.
         
         @type self: Pet
         @type a: Action
-            An action to be done on the pet. 
+            An action to be done on the pet.
         @rtype: str
             A string describing the outcome of a.
         """
@@ -88,9 +85,8 @@ class Pet(ABC):
             
         return response
     
-    @abstractmethod
     def get_response_n(self, a):
-        """ Returns a neutral response of the pet to Action a. 
+        """ Returns a neutral response of the pet to Action a.
         
         @type self: Pet
         @type a: Action
@@ -101,9 +97,8 @@ class Pet(ABC):
         
         pass
     
-    @abstractmethod
     def get_response_d(self, a):
-        """ Returns a disgust response of the pet to Action a. 
+        """ Returns a disgust response of the pet to Action a.
         
         @type self: Pet
         @type a: Action
@@ -113,9 +108,8 @@ class Pet(ABC):
         """
         pass
     
-    @abstractmethod
     def get_response_f(self, a):
-        """ Returns a favoured response of the pet to Action a. 
+        """ Returns a favoured response of the pet to Action a.
             
         @type self: Pet
         @type a: Action
@@ -124,17 +118,15 @@ class Pet(ABC):
             A string describing a response to a.
         """
         pass
-    
-    @abstractmethod
+
     def evolve(self):
-        """ Evolve the pet to the next stage and return a message. 
+        """ Evolve the pet to the next stage and return a message.
         
         @type self: Pet
         @rtype: str
         """
         pass
-    
-    @abstractmethod
+
     def level_up(self):
         """ Level up the pet, and return a message.
         
