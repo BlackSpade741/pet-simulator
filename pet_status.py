@@ -4,6 +4,7 @@ Written by Ellen Yufei Chen (BlackSpade741) 2016-2017
 """
 
 import pets
+import constants
 
 
 class PetStatus:
@@ -18,14 +19,8 @@ class PetStatus:
         The level the Pet is at.
     @type stage: str
         The stage the Pet is at.
-    @type hunger: int
-        The hunger level of the Pet.
-    @type stamina: int
-        The stamina level of the Pet.
-    @type clean: int
-        The cleanliness level of the Pet.
-    @type fun: int
-        The fun level of the Pet.
+    @type attr: dict{str: int}
+        The attributes of the pet. Includes hunger, fun, clean, and stamina.
     """
 
     def __init__(self, pet):
@@ -35,26 +30,24 @@ class PetStatus:
 
         """
         self.pet = pet
+        self.exp = 0
+        self.level = 0
+        if isinstance(pet, pets.Cat):
+            self.stage = constants.EVOL_PATH['cat']
+            self.attr = constants.MAX_ATTR['cat'].copy()
+        elif isinstance(pet, pets.Dog):
+            self.stage = constants.EVOL_PATH['dog']
+            self.attr = constants.MAX_ATTR['dog'].copy()
 
-    def stat_change_n(self, a):
-        """
+    def use(self, item):
+        """ Apply Item a to self.pet.
 
-        @type a: Item
+        @type item: Item
         """
-        pass
+        change = item.use(self.pet)
 
-    def stat_change_d(self, a):
-        """
-        @type a: Item
-        """
-        pass
-
-    def stat_change_f(self, a):
-        """
-
-        @type a: Item
-        """
-        pass
+        for key in constants.TYPES:
+            self.attr[key] += change[key]
 
     def evolve(self):
         """
@@ -66,7 +59,6 @@ class PetStatus:
     def level_up(self):
         """
 
-        @return:
         @rtype:
         """
         pass

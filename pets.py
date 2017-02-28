@@ -4,6 +4,7 @@ Written by Ellen Yufei Chen (BlackSpade741) 2016-2017
 """
 
 from pet_status import PetStatus
+import constants
 
 
 class Pet:
@@ -53,43 +54,31 @@ class Pet:
         self.stats = None
 
         if gender == 'M':
-            self.pronouns = {'subject_upper': 'He', 'object': 'him',
-                             'poss_upper': 'His',
-                             'poss_lower': 'his', 'subject_lower': 'he',
-                             'reflexive': 'himself'}
+            self.pronouns = constants.PRONOUNS['m']
         elif gender == 'F':
-            self.pronouns = {'subject_upper': 'She', 'object': 'her',
-                             'poss_upper': 'Her',
-                             'poss_lower': 'her', 'subject_lower': 'she',
-                             'poss_noun_lower': 'hers',
-                             'poss_noun_upper': 'Hers', 'reflexive': 'herself'}
+            self.pronouns = constants.PRONOUNS['f']
         elif gender == 'N':
-            self.pronouns = {'subject_upper': 'They', 'object': 'them',
-                             'poss_upper': 'Their', 'poss_lower': 'their',
-                             'subject_lower': 'they',
-                             'poss_noun_lower': 'theirs',
-                             'poss_noun_upper': 'Theirs',
-                             'reflexive': 'themselves'}
+            self.pronouns = constants.PRONOUNS['n']
 
-    def act(self, a):
-        """Return the outcome of a on Pet.
+    def use(self, item):
+        """Return the outcome of item on Pet.
 
         @type self: Pet
-        @type a: Action
-            An action to be done on the pet.
+        @type item: Item
+            An item to be used on the pet.
         @rtype: str
-            A string describing the outcome of a.
+            A string describing the outcome of item.
         """
 
-        reaction = a.type_to_reaction[str(type(self))]
+        reaction = item.type_to_reaction[str(type(self))]
         response = ''
 
         if reaction == 'n':
-            response = self.get_response_n(a) + self.stats.stat_change_n(a)
+            response = self.get_response_n(item) + self.stats.use(item)
         elif reaction == 'd':
-            response = self.get_response_d(a) + self.stats.stat_change_d(a)
+            response = self.get_response_d(item) + self.stats.use(item)
         elif reaction == 'f':
-            response = self.get_response_f(a) + self.stats.stat_change_f(a)
+            response = self.get_response_f(item) + self.stats.use(item)
 
         return response
 
@@ -148,6 +137,15 @@ class Pet:
         raise NotImplementedError("Cannot use Pet instance!"
                                   "Please use a subclass instance.")
 
+    def get_type(self):
+        """ Return the type of this pet.
+
+        @type self: Pet
+        @rtype:
+        """
+        raise NotImplementedError("Cannot use Pet instance!"
+                                  "Please use a subclass instance.")
+
 
 class Cat(Pet):
     """ A Cat-type pet.
@@ -165,8 +163,8 @@ class Cat(Pet):
     @type MAX_ATTR: dict{str: int}
         The maximum level of attributes this Cat can have.
     """
-    EVOL_PATH = ['Kitten', 'Catling', 'Cat', 'Nekomo', 'Nekohito']
-    MAX_ATTR = {'hunger': 30, 'fun': 20, 'clean': 50, 'stamina': 30}
+    EVOL_PATH = constants.EVOL_PATH['cat']
+    MAX_ATTR = constants.MAX_ATTR['cat']
 
     def __init__(self, name, gender):
         """ Initialize the Cat.
@@ -267,7 +265,7 @@ class Cat(Pet):
         new_lvl = self.stats.evolve()
         return 'A bright light fill the room... When the light subsides, you \
         see that {0} has evolved! {0} is now a {1}! '.format(self.name, self.
-                                                             evol_path[new_lvl])
+                                                             EVOL_PATH[new_lvl])
 
     def level_up(self):
         """ Level up the cat and return a message.
@@ -279,6 +277,13 @@ class Cat(Pet):
         new_lvl = self.stats.level_up()
         return '{0} has leveled up! {0} is now level {1}'.format(self.name,
                                                                  new_lvl)
+
+    def get_type(self):
+        """ Return 'cat'.
+
+        @rtype: str
+        """
+        return 'cat'
 
 
 class Dog(Pet):
@@ -292,10 +297,10 @@ class Dog(Pet):
     @type stats: PetStatus
         The status of the Dog, containing level information and status
         information.
-    @type evol_path: list of str
+    @type EVOL_PATH: list of str
         The evolution pathway of all Dogs.
     """
-    evol_path = ['Pupper', 'Dogling', 'Dog', 'Inumo', 'Inuhito']
+    EVOL_PATH = constants.EVOL_PATH['dog']
 
     def __init__(self, name, gender):
         """ Initialize the Dog.
@@ -398,7 +403,7 @@ class Dog(Pet):
         new_lvl = self.stats.evolve()
         return 'A bright light fill the room... When the light subsides, you \
         see that {0} has evolved! {0} is now a {1}! '.format(self.name, self.
-                                                             evol_path[new_lvl])
+                                                             EVOL_PATH[new_lvl])
 
     def level_up(self):
         """ Level up the Dog and return a message.
@@ -410,3 +415,11 @@ class Dog(Pet):
         new_lvl = self.stats.level_up()
         return '{0} has leveled up! {0} is now level {1}'.format(self.name,
                                                                  new_lvl)
+
+    def get_type(self):
+        """ Return 'dog'.
+
+        @type self: Dog
+        @rtype: str
+        """
+        return 'dog'
