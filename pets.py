@@ -51,7 +51,7 @@ class Pet:
 
         self.name = name
         self.gender = gender
-        self.stats = None
+        self.stats = PetStatus(self)
 
         if gender == 'M':
             self.pronouns = constants.PRONOUNS['m']
@@ -72,6 +72,7 @@ class Pet:
 
         reaction = item.type_to_reaction[str(type(self))]
         response = ''
+        self.stats.use(item)
 
         if reaction == 'n':
             response = self.get_response_n(item) + self.stats.use(item)

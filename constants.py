@@ -22,6 +22,8 @@ EVOL_PATH = {'cat': ['Kitten', 'Catling', 'Cat', 'Nekomo', 'Nekohito'],
 MAX_ATTR = {'cat': {'hunger': 30, 'fun': 20, 'clean': 50, 'stamina': 30},
             'dog': {'hunger': 40, 'fun': 40, 'clean': 20, 'stamina': 30}}
 
+EVOL_LEVELS = [5, 10, 25, 50]
+
 REACTION_MULT = {'n': 0.75, 'f': 1.0, 'd': 0.0}
 
 TYPES = ['food', 'play', 'clean', 'rest']

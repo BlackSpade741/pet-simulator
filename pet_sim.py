@@ -3,7 +3,7 @@ Pet_Sim class for PetSim.
 """
 
 
-from cupboard import Cupboard, NoItemError
+from cupboard import Cupboard
 from pets import Cat, Dog
 
 
@@ -30,4 +30,12 @@ class PetSim:
         else:
             self.pet = Dog(name, gender)
 
-    def
+    def use(self, name):
+        """ Use an item called name on self.pet.
+
+        @param name:
+        @type name:
+        @return:
+        @rtype:
+        """
+

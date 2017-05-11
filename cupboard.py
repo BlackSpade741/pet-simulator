@@ -4,7 +4,8 @@ Written by Ellen Yufei Chen (BlackSpade741) 2016-2017
 
 """
 
-import items
+import constants
+from items import Item
 
 
 class Cupboard:
@@ -12,35 +13,37 @@ class Cupboard:
     A cupboard containing Items.
     """
     def __init__(self):
+        """ Initialize this cupboard object.
         """
-        Initialize this cupboard object.
-        """
-        self.items = {}
+        self.items = []
 
-    def __str__(self):
+    def __iter__(self):
+        """ Allows iteration over Cupboard, which is iteration over self.items
         """
-
-        @return:
-        @rtype:
-        """
-        pass
+        return self.items.__iter__()
 
     def get(self, name):
         """ Return an Item object of name in self.items, if it exists.
         @param name:
-        @type name:
-        @return:
         @rtype:
         """
-        pass
+        for stage in self:
+            for item in stage:
+                if item.name == name:
+                    return item
+
+        raise NoItemError
 
     def fill_cupboard(self, itms):
         """ Fill this cupboard with items from itms.
 
-        @param itms:
+        @param list[list[Item]] itms:
         @rtype:
         """
-        pass
+        for stage in range(len(itms)):
+            self.items.append([])
+            for item in itms[stage]:
+                self.items[stage].append(item)
 
     def use(self, name, pet):
         """ Use item with name. Might raise NoItemError.
@@ -49,36 +52,41 @@ class Cupboard:
         @param pet:
         @rtype:
         """
-        pass
+        item = self.get(name)
+        pet.use(item)
 
-    def restock(self, name, quantity):
+    def add_item(self, name, type_, attr, react, dur, stage):
+        """ Add a new item to the cupboard, with {name} name, {attr} attributes,
+        {react} reactions, and {dur} durability.
+
+        @param Cupboard self: This cupboard
+        @param str name: The name of the item to add
+        @param str type_: The type of the item to add
+        @param dict attr: The attributes of the item to add
+        @param dict react: The reactions from each pet to the item to add
+        @param int dur: The starting durability of the item to add
+        @param int stage: The minimum stage a pet has to be in order to use the
+        item to add
+        @rtype: None
+        """
+        assert type(name) == str and type(attr) == dict and type(react) == dict\
+            and type(dur) == int and type(type_) in constants.TYPES
+
+        new_item = Item(name, type_, attr, react, dur)
+        self.items[stage].append(new_item)
+
+    def file_output(self):
         """
 
-        @param name:
-        @param quantity:
-        @rtype:
-        """
-        pass
-
-    def add_item(self, name, attr, react, dur, num):
-        """
-
-        @param name:
-        @type name:
-        @param attr:
-        @type attr:
-        @param react:
-        @type react:
-        @param dur:
-        @type dur:
-        @param num:
-        @type num:
         @return:
         @rtype:
         """
-        pass
-
-
+        s = ''
+        for i in range(len(self.items)):
+            s += int(i), '\n'
+            for item in self.items[i]:
+                s += item.file_output()
+            s += '\n'
 
 
 class NoItemError(Exception):
